@@ -2,8 +2,11 @@
     <div id="nav">
         <router-link to="/" id="logo-url">
             <img :src="logo" :alt="alt" id="logo">
-        </router-link>   
+        </router-link>
         <router-link to="/">
+          Login
+        </router-link>
+        <router-link to="/home">
             Home
         </router-link> 
         <router-link to="/pedidos">

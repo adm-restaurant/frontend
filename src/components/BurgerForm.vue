@@ -8,32 +8,26 @@
                     <input type="text" id="nome" name="nome" v-model="nome" placeholder="Digite o seu nome:">
                 </div>
                 <div class="input-container">
-                    <label for="pao">Escolha o pão:</label>
-                    <select name="pao" id="pao" v-model="pao">
-                        <option value="">Selecione o seu pão</option>
+                    <label for="bruger">Escolha o burger:</label>
+                    <select name="burger" id="burger" v-model="burger">
+                        <option value="">Selecione o burger</option>
                         <option v-for="pao in paes" :key="pao.id" :value="pao.tipo">
                             {{ pao.tipo }}
                         </option>
                     </select>
                 </div>
                 <div class="input-container">
-                    <label for="carne">Escolha a carne:</label>
-                    <select name="carne" id="carne" v-model="carne">
-                        <option value="">Selecione o tipo de carne</option>
+                    <label for="carne">Escolha a bebida:</label>
+                    <select name="bebida" id="bebida" v-model="bebida">
+                        <option value="">Selecione a bebida</option>
                         <option v-for="carne in carnes" :key="carne.id" :value="carne.tipo">
                             {{ carne.tipo }}
                         </option>
                     </select>
                 </div>
-                <div id="opcionais-container" class="input-container">
-                    <label id="opcionais-title" for="opcionais">Selecione os opcionais:</label>
-                        <div class="checkbox-container" v-for="opcional in opcionaisdata" :key="opcional.id">
-                            <input type="checkbox" name="opcionais" v-model="opcionais" :value="opcional.tipo">
-                            <span>{{opcional.tipo}}</span>
-                        </div>
-                </div>
+
                 <div class="input-container">
-                    <input type="submit" class="submit-btn" value="Criar meu Burger">
+                    <input type="submit" class="submit-btn" value="Gerar pedido">
                 </div>
             </form>
         </div>
@@ -139,23 +133,7 @@
         width: 300px;
     }
 
-    #opcionais-container{
-        flex-direction: row;
-        flex-wrap: wrap;
-    }
-
-    #opcionais-title{
-        width: 100%;
-    }
-
-    .checkbox-container{
-        display: flex;
-        align-items: flex-start;
-        width: 50%;
-        margin-bottom: 20px;
-    }
-
-    .checkbox-container span, 
+    .checkbox-container span,
     .checkbox-container input{
         width: auto;
     }
@@ -169,7 +147,7 @@
         background-color: #222;
         color: #FCBA03;
         font-weight: bold;
-        border: 2psx solid #222;
+        border: 2px solid #222;
         padding: 10px;
         font-size: 16px;
         margin: 0 auto;

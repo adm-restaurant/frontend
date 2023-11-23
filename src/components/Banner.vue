@@ -1,6 +1,6 @@
 <template>
     <div id="main-banner">
-        <h1>Make Your Burger</h1>
+        <h1>Top Burger</h1>
     </div>
 </template>
 
