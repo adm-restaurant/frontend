@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import api from '@/config/api';
 import Message from './Message.vue';
 import axios from 'axios';
 
@@ -42,7 +43,7 @@ export default {
   methods: {
     async getProductsByCategory(categoria) {
       try {
-        const response = await axios.get(`http://localhost:3000/produtos?categoria=${categoria}`);
+        const response = api.get(`/product/${categoria}`);
         this.produtos = response.data;
       } catch (error) {
         console.error(`Erro ao buscar produtos da categoria ${categoria}:`, error);

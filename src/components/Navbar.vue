@@ -3,22 +3,35 @@
         <router-link to="/" id="logo-url">
             <img :src="logo" :alt="alt" id="logo">
         </router-link>
-        <router-link to="/">
-          Login
-        </router-link>
-        <router-link to="/home">
+        <a v-if="user.authenticated" @click="logout" style="cursor: pointer;">
+            Logout
+        </a>
+        <router-link to="/home" v-if="user.authenticated">
             Home
         </router-link> 
-        <router-link to="/pedidos">
+        <router-link to="/pedidos" v-if="user.authenticated">
             Pedidos
         </router-link>
     </div>
 </template>
 
 <script>
-    export default{
+    import auth from '@/auth/index.js'
+
+    export default {
         name: "Navbar",
-        props: ["logo", "alt"]
+        props: ["logo", "alt"],
+        data(){
+            return{
+                user: auth.user
+            }
+        },
+        methods: {
+            logout(){
+                auth.logout();
+                this.$router.push({ path: '/' });
+            }
+        }
     }
 </script>
 

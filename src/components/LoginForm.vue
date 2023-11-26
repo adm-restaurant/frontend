@@ -23,8 +23,8 @@
 
 <script>
 import Message from "@/components/Message.vue";
-import api from "@/config/api";
 import authService from '@/services/auth.service';
+import auth from '@/auth/index.js';
 
 export default {
   name: "LoginForm",
@@ -43,6 +43,8 @@ export default {
           localStorage.setItem('user', JSON.stringify(response.data));
           localStorage.setItem('token', response.data.token);
         }
+
+        auth.user.authenticated = true;
 
         this.$router.push({ path: '/home' });
 
