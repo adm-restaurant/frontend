@@ -1,8 +1,6 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
 
 import Login from "@/views/Login.vue";
-import api from '@/config/api';
-import authService from '@/services/auth.service';
 
 const routes = [
   {

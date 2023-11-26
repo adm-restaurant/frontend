@@ -23,6 +23,7 @@
 
 <script>
 import Message from "@/components/Message.vue";
+import api from "@/config/api";
 import authService from '@/services/auth.service';
 
 export default {
