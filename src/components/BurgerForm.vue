@@ -18,7 +18,7 @@
         <div class="input-container">
           <label>Escolha os produtos:</label>
           <div class="checkbox-container">
-            <label v-for="produto in produtos" :key="produto.id">
+            <label v-for="produto in produtos" :key="produto.id" class="checkbox-input">
               <input type="checkbox" v-model="produtosSelecionados" :value="produto.name">
               <span>{{ produto.name }}</span>
             </label>
@@ -111,13 +111,15 @@ export default {
     #burger-form{
         max-width: 400px;
         margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-left: 80px;
     }
 
     .input-container{
         display: flex;
         flex-direction: column;
-        margin-bottom: 20px;
-        margin-left: 60px;
     }
 
     label{
@@ -133,14 +135,26 @@ export default {
         width: 300px;
     }
 
-    .checkbox-container span,
-    .checkbox-container input{
-        width: auto;
+    .checkbox-container {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      flex: 1;
+      gap: 10px;
     }
 
-    .checkbox-container span{
-        margin-left: 6px;
-        font-weight: bold;
+    .checkbox-input {
+      display: flex;
+      margin-right: auto;
+      align-items: center;
+      width: 150px;
+    }
+    .checkbox-input input {
+      display: flex;
+      width: 40px;
+      height: 20px;
+      min-width: 40px;
+      min-height: 20px;
     }
 
     .submit-btn{
