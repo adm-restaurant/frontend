@@ -12,7 +12,7 @@ import Banner from "../components/Banner.vue"
 import ProductForm from "../components/ProductForm.vue"
 
 export default{
-  name: "Login",
+  name: "Product",
   components: {
     Banner,
     ProductForm

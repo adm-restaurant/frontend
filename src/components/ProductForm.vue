@@ -27,6 +27,7 @@
 
 import {defineComponent} from "vue";
 import Message from "@/components/Message.vue";
+import api from "@/config/api";
 
 export default defineComponent({
   data(){
@@ -35,8 +36,36 @@ export default defineComponent({
       nome: null,
       msg: null
     };
-
   },
+
+  methods: {
+    async createProduct(e) {
+      e.preventDefault();
+
+      const data = {
+        nome: this.nome,
+      };
+
+      try {
+        const response = await api.post(`/api/product`, data);
+
+        this.msg = `Produto ${response.data.id} cadastrado com sucesso !`;
+
+        setTimeout(() => this.msg = "", 3000);
+
+        this.nome = "";
+        this.produtosSelecionados = [];
+      } catch (error) {
+        console.error('Erro ao criar o produto:', error);
+      }
+    }
+  },
+
+  selectCategoria(categoria) {
+    this.categoriaSelecionada = categoria;
+    this.createProduct();
+  },
+
   components: {Message}
 })
 </script>
