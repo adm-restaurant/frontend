@@ -10,7 +10,7 @@
 
         <div class="input-container">
           <label for="nome">Senha</label>
-          <input type="text" id="password" name="password" v-model="password" placeholder="Digite sua senha:">
+          <input type="password" id="password" name="password" v-model="password" placeholder="Digite sua senha:">
         </div>
 
         <div class="input-container">
