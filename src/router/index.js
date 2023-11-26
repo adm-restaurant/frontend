@@ -9,7 +9,6 @@ const routes = [
     name: 'login',
     component: Login,
     beforeEnter: (to, from, next) => {
-      console.log('dasdas');
       const token = localStorage.getItem('token');
       if(token) {
         next('/home');
