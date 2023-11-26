@@ -37,6 +37,12 @@ const routes = [
     name: 'Products',
     component: () => import(/* webpackChunkName: "produtos" */ '../views/Product.vue'),
     beforeEnter: AuthVerifyRouter
+  },
+  {
+    path: '/usuario',
+    name: 'Usuário',
+    component: () => import(/* webpackChunkName: "usuario" */ '../views/Usuario.vue'),
+    beforeEnter: AuthVerifyRouter
   }
 ]
 
