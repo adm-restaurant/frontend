@@ -12,6 +12,9 @@
         <router-link to="/pedidos" v-if="user.authenticated">
             Pedidos
         </router-link>
+        <router-link to="/produtos" v-if="user.authenticated">
+          Cadastrar Produto
+        </router-link>
     </div>
 </template>
 
