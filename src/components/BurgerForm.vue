@@ -1,111 +1,91 @@
 <template>
-   <div>
-        <Message :msg="msg" v-show="msg" />
-        <div>
-            <form id="burger-form" @submit="createBurger">
-                <div class="input-container">
-                    <label for="nome">Nome do cliente</label>
-                    <input type="text" id="nome" name="nome" v-model="nome" placeholder="Digite o seu nome:">
-                </div>
-                <div class="input-container">
-                    <label for="bruger">Escolha o burger:</label>
-                    <select name="burger" id="burger" v-model="burger">
-                        <option value="">Selecione o burger</option>
-                        <option v-for="pao in paes" :key="pao.id" :value="pao.tipo">
-                            {{ pao.tipo }}
-                        </option>
-                    </select>
-                </div>
-                <div class="input-container">
-                    <label for="carne">Escolha a bebida:</label>
-                    <select name="bebida" id="bebida" v-model="bebida">
-                        <option value="">Selecione a bebida</option>
-                        <option v-for="carne in carnes" :key="carne.id" :value="carne.tipo">
-                            {{ carne.tipo }}
-                        </option>
-                    </select>
-                </div>
-
-                <div class="input-container">
-                    <input type="submit" class="submit-btn" value="Gerar pedido">
-                </div>
-            </form>
+  <div>
+    <Message :msg="msg" v-show="msg" />
+    <div>
+      <form id="burger-form" @submit="createBurger">
+        <div class="input-container">
+          <label for="nome">Nome do cliente</label>
+          <input type="text" id="nome" name="nome" v-model="nome" placeholder="Digite o seu nome">
         </div>
-   </div>
+        <div class="input-container">
+          <label>Escolha os produtos:</label>
+          <div class="checkbox-container">
+            <label v-for="produto in produtos" :key="produto.id">
+              <input type="checkbox" v-model="produtosSelecionados" :value="produto.nome">
+              <span>{{ produto.nome }}</span>
+            </label>
+          </div>
+        </div>
+        <div class="input-container">
+          <input type="submit" class="submit-btn" value="Gerar pedido">
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
 
 <script>
-    import Message from './Message.vue';
-    export default{
-        name: "BurgerForm",
-        data(){
-            return {
-                paes: null,
-                carnes: null,
-                opcionaisdata: null,
-                nome: null,
-                pao: null,
-                carne: null,
-                opcionais: [],
-                msg: null
-            }
-        },
+import Message from './Message.vue';
+import axios from 'axios';
 
-        methods: {
-            // "Puxa" as informações do back dentro do form:
-            async getIngredients(){
-                const req = await fetch("http://localhost:3000/ingredientes");
-                const data = await req.json();
-                
-                this.paes = data.paes;
-                this.carnes = data.carnes;
-                this.opcionaisdata = data.opcionais;
-            },
+export default {
+  name: "BurgerForm",
+  data() {
+    return {
+      produtos: [],
+      nome: null,
+      produtosSelecionados: [],
+      msg: null
+    };
+  },
 
-            // Insere informações no back/banco na criação do burger:
-            async createBurger(e) {
-                e.preventDefault();
+  methods: {
+    async getProductsByCategory(categoria) {
+      try {
+        const response = await axios.get(`http://localhost:3000/produtos?categoria=${categoria}`);
+        this.produtos = response.data;
+      } catch (error) {
+        console.error(`Erro ao buscar produtos da categoria ${categoria}:`, error);
+      }
+    },
 
-                const data = {
-                    nome: this.nome,
-                    carne: this.carne,
-                    pao: this.pao,
-                    opcionais: Array.from(this.opcionais),
-                    status: "Solicitado"
-                };
+    async createBurger(e) {
+      e.preventDefault();
 
-                const dataJson =    JSON.stringify(data);
+      const data = {
+        nome: this.nome,
+        produtos: this.produtosSelecionados,
+        status: "Solicitado"
+      };
 
-                const req = await fetch("http://localhost:3000/burgers",{
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: dataJson
-                });
+      try {
+        const response = await axios.post("http://localhost:3000/pedidos", data);
 
-                const res = await req.json();
+        this.msg = `Pedido N° ${response.data.id} realizado com sucesso !`;
 
-                // Mensagem do sistema:
-                this.msg = `Pedido N° ${res.id} realizado com sucesso !`;
+        setTimeout(() => this.msg = "", 3000);
 
-                // Limpa a mensagem:
-                setTimeout(() => this.msg = "", 3000);
-
-                // Limpar campos:
-                this.nome = "";
-                this.carne = "";
-                this.pao = "";
-                this.opcionais = "";
-            }
-        },
-
-        mounted(){
-            this.getIngredients();
-        },
-
-        components:{
-            Message
-        }
+        this.nome = "";
+        this.produtosSelecionados = [];
+      } catch (error) {
+        console.error('Erro ao criar o pedido:', error);
+      }
     }
+  },
+
+  mounted() {
+    this.getProductsByCategory('BEBIDAS');
+  },
+
+  watch: {
+    produtosSelecionados: function (novosProdutos) {
+    }
+  },
+
+  components: {
+    Message
+  }
+};
 </script>
 
 <style scoped>
