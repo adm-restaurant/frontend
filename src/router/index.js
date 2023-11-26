@@ -1,31 +1,41 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 import Login from "@/views/Login.vue";
+import api from '@/config/api';
+import authService from '@/services/auth.service';
 
 const routes = [
   {
     path: '/',
     name: 'login',
-    component: Login
+    component: Login,
+    meta: {
+      requiresAuth: true
+    }
   },
 
   {
     path: '/home',
     name: 'Home',
-    component: () => import(/* webpackChunkName: "home" */ '../views/Home.vue')
+    component: () => import(/* webpackChunkName: "home" */ '../views/Home.vue'),
+    meta: {
+      requiresAuth: true
+    }
   },
 
   {
     path: '/pedidos',
     name: 'Pedidos',
-  
-    component: () => import(/* webpackChunkName: "pedidos" */ '../views/Pedidos.vue')
+    component: () => import(/* webpackChunkName: "pedidos" */ '../views/Pedidos.vue'),
+    meta: {
+      requiresAuth: true
+    }
   }
 ]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
-})
+});
 
 export default router
