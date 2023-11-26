@@ -5,7 +5,15 @@
       <form id="burger-form" @submit="createBurger">
         <div class="input-container">
           <label for="nome">Nome do cliente</label>
-          <input type="text" id="nome" name="nome" v-model="nome" placeholder="Digite o seu nome">
+          <input type="text" id="nome" name="nome" v-model="nome" placeholder="Digite o nome do cliente">
+        </div>
+        <div class="input-container">
+          <label>Escolha a categoria:</label>
+          <div>
+            <button class="submit-btn" style="margin-right: 10px" v-for="categoria in categorias" :key="categoria" @click="selectCategoria(categoria)">
+              {{ categoria }}
+            </button>
+          </div>
         </div>
         <div class="input-container">
           <label>Escolha os produtos:</label>
@@ -25,14 +33,16 @@
 </template>
 
 <script>
-import api from '@/config/api';
 import Message from './Message.vue';
 import axios from 'axios';
+import api from "@/config/api";
 
 export default {
   name: "BurgerForm",
   data() {
     return {
+      categorias: ['BEBIDAS', 'ALIMENTACAO'],
+      categoriaSelecionada: 'ALIMENTACAO',
       produtos: [],
       nome: null,
       produtosSelecionados: [],
@@ -41,13 +51,18 @@ export default {
   },
 
   methods: {
-    async getProductsByCategory(categoria) {
+    async loadProducts() {
       try {
-        const response = api.get(`/product/${categoria}`);
+        const response = await api.get(`/product/${this.categoriaSelecionada}`)
         this.produtos = response.data;
       } catch (error) {
-        console.error(`Erro ao buscar produtos da categoria ${categoria}:`, error);
+        console.error(`Erro ao buscar produtos da categoria ${this.categoriaSelecionada}:`, error);
       }
+    },
+
+    selectCategoria(categoria) {
+      this.categoriaSelecionada = categoria;
+      this.loadProducts();
     },
 
     async createBurger(e) {
@@ -60,7 +75,7 @@ export default {
       };
 
       try {
-        const response = await axios.post("http://localhost:3000/pedidos", data);
+        const response = await api.post(`/api/solicitation`, data);
 
         this.msg = `Pedido N° ${response.data.id} realizado com sucesso !`;
 
@@ -75,10 +90,13 @@ export default {
   },
 
   mounted() {
-    this.getProductsByCategory('BEBIDAS');
+    this.loadProducts();
   },
 
   watch: {
+    categoriaSelecionada: function (novaCategoria) {
+      this.loadProducts();
+    },
     produtosSelecionados: function (novosProdutos) {
     }
   },
@@ -99,6 +117,7 @@ export default {
         display: flex;
         flex-direction: column;
         margin-bottom: 20px;
+        margin-left: 60px;
     }
 
     label{
@@ -131,7 +150,7 @@ export default {
         border: 2px solid #222;
         padding: 10px;
         font-size: 16px;
-        margin: 0 auto;
+        margin: 30 auto;
         cursor: pointer;
         transition: .5s;
     }
