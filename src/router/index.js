@@ -1,16 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 import Login from "@/views/Login.vue";
+import AuthVerifyRouter from "@/utils/AuthVerifyRouter";
 
 const routes = [
   {
     path: '/',
     name: 'login',
     component: Login,
-    meta: {
-      requiresAuth: true
-    },
     beforeEnter: (to, from, next) => {
+      console.log('dasdas');
       const token = localStorage.getItem('token');
       if(token) {
         next('/home');
@@ -24,18 +23,14 @@ const routes = [
     path: '/home',
     name: 'Home',
     component: () => import(/* webpackChunkName: "home" */ '../views/Home.vue'),
-    meta: {
-      requiresAuth: true
-    }
+    beforeEnter: AuthVerifyRouter
   },
 
   {
     path: '/pedidos',
     name: 'Pedidos',
     component: () => import(/* webpackChunkName: "pedidos" */ '../views/Pedidos.vue'),
-    meta: {
-      requiresAuth: true
-    }
+    beforeEnter: AuthVerifyRouter
   }
 ]
 
