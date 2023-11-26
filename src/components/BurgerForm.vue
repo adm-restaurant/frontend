@@ -53,7 +53,7 @@ export default {
   methods: {
     async loadProducts() {
       try {
-        const response = await api.get(`/api/product/${this.categoriaSelecionada}`)
+        const response = await api.get(`/product/${this.categoriaSelecionada}`)
         this.produtos = response.data;
       } catch (error) {
         console.error(`Erro ao buscar produtos da categoria ${this.categoriaSelecionada}:`, error);
@@ -75,7 +75,7 @@ export default {
       };
 
       try {
-        const response = await api.post("/api/solicitation", data);
+        const response = await api.post(`/api/solicitation`, data);
 
         this.msg = `Pedido N° ${response.data.id} realizado com sucesso !`;
 
