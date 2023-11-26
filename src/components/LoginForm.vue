@@ -2,7 +2,7 @@
   <div>
     <Message :msg="msg" v-show="msg" />
     <div>
-      <form id="login-form" @submit="createLogin">
+      <form id="login-form" @submit.prevent="handleLogin">
         <div class="input-container">
           <label for="nome">Usuário</label>
           <input type="text" id="user" name="user" v-model="user" placeholder="Digite o seu usuário">
@@ -22,8 +22,9 @@
 </template>
 
 <script>
-import axios from 'axios';
 import Message from "@/components/Message.vue";
+import api from "@/config/api";
+import authService from '@/services/auth.service';
 
 export default {
   name: "LoginForm",
@@ -35,30 +36,25 @@ export default {
   },
 
   methods: {
-    async getUser() {
+    async handleLogin() {
       try {
-        const response = await axios.post('http://localhost:8080/api/auth/login', {
-          user: this.user,
-          password: this.password,
-        });
-        if (response.status === 200) {
-          console.log('Login bem-sucedido');
-        } else {
-          this.$refs.message.showMessage('Informações inválidas. Tente novamente.');
+        const response = await authService.login(this.user, this.password);
+        if (response.data.token) {
+          localStorage.setItem('user', JSON.stringify(response.data));
+          localStorage.setItem('token', response.data.token);
         }
+
+        this.$router.push({ path: '/home' });
+
       } catch (error) {
-        console.error('Erro na solicitação getUser:', error);
-        this.$refs.message.showMessage('Erro ao entrar. Tente novamente mais tarde.');
+        console.log(error);
+        alert('Senha ou usuário incorretos!');
       }
     },
 
     // async createUser(e) {
     //   //To be implemented...
     // }
-  },
-
-  mounted() {
-    this.getUser();
   },
 
   components: {
