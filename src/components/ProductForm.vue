@@ -8,11 +8,19 @@
           <input type="text" id="nome" name="nome" v-model="nome" placeholder="Digite o nome do produto">
         </div>
         <div class="input-container">
+          <label for="preco">Preço do Produto</label>
+          <input type="text" id="preco" name="preco" v-model="preco" placeholder="Digite o preço do produto">
+        </div>
+        <div class="input-container">
           <label>Escolha a categoria:</label>
           <div>
-            <button class="submit-btn" style="margin-right: 10px" v-for="categoria in categorias" :key="categoria" @click="selectCategoria(categoria)">
+            <span class="submit-btn" 
+              style="margin-right: 10px" 
+              v-for="categoria in categorias" :key="categoria"
+              @click="() => selectCategoria(categoria)"
+            >
               {{ categoria }}
-            </button>
+            </span>
           </div>
         </div>
         <div class="input-container">
@@ -33,7 +41,9 @@ export default defineComponent({
   data(){
     return{
       categorias: ['BEBIDAS', 'ALIMENTACAO'],
+      categoriaSelecionada: null,
       nome: null,
+      preco: null,
       msg: null
     };
   },
@@ -43,11 +53,18 @@ export default defineComponent({
       e.preventDefault();
 
       const data = {
-        nome: this.nome,
+        name: this.nome,
+        price: this.preco,
+        category: this.categoriaSelecionada
       };
 
+      if (!this.nome || !this.categoriaSelecionada || !this.preco) {
+        alert('Preencha todos os campos!');
+        return;
+      }
+
       try {
-        const response = await api.post(`/api/product`, data);
+        const response = await api.post(`/product`, data);
 
         this.msg = `Produto ${response.data.id} cadastrado com sucesso !`;
 
@@ -58,12 +75,10 @@ export default defineComponent({
       } catch (error) {
         console.error('Erro ao criar o produto:', error);
       }
-    }
-  },
-
-  selectCategoria(categoria) {
-    this.categoriaSelecionada = categoria;
-    this.createProduct();
+    },
+    selectCategoria(categoria) {
+      this.categoriaSelecionada = categoria;
+    },
   },
 
   components: {Message}

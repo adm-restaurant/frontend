@@ -19,8 +19,8 @@
           <label>Escolha os produtos:</label>
           <div class="checkbox-container">
             <label v-for="produto in produtos" :key="produto.id">
-              <input type="checkbox" v-model="produtosSelecionados" :value="produto.nome">
-              <span>{{ produto.nome }}</span>
+              <input type="checkbox" v-model="produtosSelecionados" :value="produto.name">
+              <span>{{ produto.name }}</span>
             </label>
           </div>
         </div>
