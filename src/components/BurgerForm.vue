@@ -19,7 +19,10 @@
           <label>Escolha os produtos:</label>
           <div class="checkbox-container">
             <label v-for="produto in produtos" :key="produto.id" class="checkbox-input">
-              <input type="checkbox" v-model="produtosSelecionados" :value="produto.name">
+              <input type="checkbox"
+                value="produto"
+                @change="e => checkProduct(e, produto)"
+              >
               <span>{{ produto.name }}</span>
             </label>
           </div>
@@ -86,6 +89,14 @@ export default {
       } catch (error) {
         console.error('Erro ao criar o pedido:', error);
       }
+    },
+    checkProduct: function (event, produtoParam) {
+      const { checked } = event.target;
+      if (checked) {
+        this.produtosSelecionados.push(produtoParam);
+      } else {
+        this.produtosSelecionados = this.produtosSelecionados.filter(produto => produto !== produtoParam);
+      }
     }
   },
 
@@ -97,8 +108,11 @@ export default {
     categoriaSelecionada: function (novaCategoria) {
       this.loadProducts();
     },
-    produtosSelecionados: function (novosProdutos) {
-    }
+    produtosSelecionados: function (novoProduto) {
+      if (this.produtosSelecionados.find(produto => produto.name)) {
+        this.produtosSelecionados = this.produtosSelecionados.filter(produto => produto.name);
+      }
+    },
   },
 
   components: {
