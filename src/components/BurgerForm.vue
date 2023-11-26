@@ -10,9 +10,13 @@
         <div class="input-container">
           <label>Escolha a categoria:</label>
           <div>
-            <button class="submit-btn" style="margin-right: 10px" v-for="categoria in categorias" :key="categoria" @click="selectCategoria(categoria)">
+            <span class="submit-btn"
+                  style="margin-right: 10px"
+                  v-for="categoria in categorias" :key="categoria"
+                  @click="() => selectCategoria(categoria)"
+            >
               {{ categoria }}
-            </button>
+            </span>
           </div>
         </div>
         <div class="input-container">
@@ -75,7 +79,7 @@ export default {
       };
 
       try {
-        const response = await api.post(`/api/solicitation`, data);
+        const response = await api.post(`/solicitation`, data);
 
         this.msg = `Pedido N° ${response.data.id} realizado com sucesso !`;
 
