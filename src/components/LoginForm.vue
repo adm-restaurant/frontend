@@ -38,8 +38,9 @@ export default {
     async handleLogin() {
       try {
         const response = await authService.login(this.user, this.password);
-        if (response.data.jwt) {
+        if (response.data.token) {
           localStorage.setItem('user', JSON.stringify(response.data));
+          localStorage.setItem('token', response.data.jwt);
         }
 
         this.$router.push({ path: '/home' });
