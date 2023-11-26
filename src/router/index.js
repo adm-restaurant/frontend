@@ -11,6 +11,14 @@ const routes = [
     component: Login,
     meta: {
       requiresAuth: true
+    },
+    beforeEnter: (to, from, next) => {
+      const token = localStorage.getItem('token');
+      if(token) {
+        next('/home');
+      } else {
+        next();
+      }
     }
   },
 

@@ -40,7 +40,7 @@ export default {
         const response = await authService.login(this.user, this.password);
         if (response.data.token) {
           localStorage.setItem('user', JSON.stringify(response.data));
-          localStorage.setItem('token', response.data.jwt);
+          localStorage.setItem('token', response.data.token);
         }
 
         this.$router.push({ path: '/home' });
