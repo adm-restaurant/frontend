@@ -7,6 +7,13 @@
 <script>
   import Navbar from './components/Navbar.vue';
   import Footer from './components/Footer.vue';
+  import auth from './auth/index.js';
+
+  const token = localStorage.getItem("token") ? true : false;
+
+  if (token) {
+    auth.user.authenticated = true;
+  }
 
   export default{
     components: { 

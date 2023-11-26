@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import api from '@/config/api';
 import Message from './Message.vue';
 import axios from 'axios';
 import api from "@/config/api";
