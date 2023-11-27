@@ -10,19 +10,20 @@
         <div class="input-container">
           <label>Escolha a categoria:</label>
           <div>
-            <button class="submit-btn" style="margin-right: 10px" v-for="categoria in categorias" :key="categoria" @click="selectCategoria(categoria)">
+            <span class="submit-btn"
+                  style="margin-right: 10px"
+                  v-for="categoria in categorias" :key="categoria"
+                  @click="() => selectCategoria(categoria)"
+            >
               {{ categoria }}
-            </button>
+            </span>
           </div>
         </div>
         <div class="input-container">
           <label>Escolha os produtos:</label>
           <div class="checkbox-container">
             <label v-for="produto in produtos" :key="produto.id" class="checkbox-input">
-              <input type="checkbox"
-                value="produto"
-                @change="e => checkProduct(e, produto)"
-              >
+              <input type="checkbox" v-model="produtosSelecionados" :value="produto">
               <span>{{ produto.name }}</span>
             </label>
           </div>
@@ -72,13 +73,18 @@ export default {
       e.preventDefault();
 
       const data = {
-        nome: this.nome,
-        produtos: this.produtosSelecionados,
+        clientName: this.nome,
+        solicitationProducts: this.produtosSelecionados.map(product => {
+          return {
+            product,
+            quantity: 1
+          }
+        }),
         status: "Solicitado"
       };
 
       try {
-        const response = await api.post(`/api/solicitation`, data);
+        const response = await api.post(`/solicitation`, data);
 
         this.msg = `Pedido N° ${response.data.id} realizado com sucesso !`;
 
