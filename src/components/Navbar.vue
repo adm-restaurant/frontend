@@ -18,6 +18,9 @@
       <router-link to="/usuario" v-if="user.authenticated">
         Cadastrar Usuário
       </router-link>
+      <router-link to="/userList" v-if="user.authenticated">
+        Listagem de Usuários
+      </router-link>
     </div>
 </template>
 

@@ -81,7 +81,8 @@ export default {
         this.msg = `Pedido removido com sucesso !`;
         setTimeout(() => (this.msg = ""), 3000);
 
-        this.getPedidos();
+        await this.getPedidos();
+        console.log(id)
       } catch (error) {
         console.error("Erro ao deletar pedido:", error);
       }
