@@ -96,6 +96,7 @@ export default {
 
         this.msg = `O pedido N° ${response.data.id} foi atualizado para ${response.data.solicitationStatus} !`;
       } catch (error) {
+        if (solicitation !== 'DONE') this.msg = 'O pedido já foi finalizado !';
         console.error("Erro ao atualizar pedido:", error);
       }
     },
