@@ -45,13 +45,19 @@ const routes = [
     path: '/usuario',
     name: 'Usuário',
     component: () => import(/* webpackChunkName: "usuario" */ '../views/Usuario.vue'),
-    beforeEnter: AuthVerifyRouter
+    beforeEnter: AuthVerifyRouter,
+    meta: {
+      role: 'ADMINISTRADOR'
+    }
   },
   {
     path: '/userList',
     name: 'UserList',
     component: () => import(/* webpackChunkName: "userList" */ '../views/UserList.vue'),
-    beforeEnter: AuthVerifyRouter
+    beforeEnter: AuthVerifyRouter,
+    meta: {
+      role: 'ADMINISTRADOR'
+    }
   }
 
 ]
