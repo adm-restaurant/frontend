@@ -71,11 +71,12 @@ export default {
 
     async deleteBurger(id) {
       try {
-        await api.delete(`/solicitation/${id}`);
+        await api.get(`/solicitation/${id}`);
         this.msg = `Pedido removido com sucesso !`;
         setTimeout(() => (this.msg = ""), 3000);
 
-        this.getPedidos();
+        await this.getPedidos();
+        console.log(id)
       } catch (error) {
         console.error("Erro ao deletar pedido:", error);
       }
