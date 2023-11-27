@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Message :msg="msg" v-show="msg" />
     <form id="usuario-form" @submit.prevent="createUsuario">
       <div class="input-container">
         <label for="nome">Nome</label>
@@ -15,7 +16,7 @@
         <label for="nome">Função</label>
         <select name="role" id="role" v-model="role">
           <option value="ADMINISTRADOR">Administrador</option>
-          <option value="FUNCIONARIO">Usuário</option>
+          <option value="FUNCIONARIO">Funcionario</option>
         </select>
       </div>
 
@@ -38,6 +39,7 @@ export default {
       user: null,
       password: null,
       role: null,
+      msg: null,
     };
   },
 
@@ -51,8 +53,6 @@ export default {
         role: this.role
       };
 
-      console.log(data);
-
       if (!this.nome || !this.password || !this.role) {
         alert('Preencha todos os campos!');
         return;
@@ -61,12 +61,13 @@ export default {
       try {
         const response = await api.post(`/user`, data);
 
-        this.msg = `Usuário ${response.data.id} cadastrado com sucesso !`;
+        this.msg = `Usuário ${response.data.name} cadastrado com sucesso !`;
 
         setTimeout(() => this.msg = "", 3000);
 
         this.nome = "";
         this.produtosSelecionados = [];
+        e.target.reset();
       } catch (error) {
         console.error('Erro ao criar o produto:', error);
       }

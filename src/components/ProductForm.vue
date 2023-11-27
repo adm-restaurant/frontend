@@ -9,7 +9,7 @@
         </div>
         <div class="input-container">
           <label for="preco">Preço do Produto</label>
-          <input type="text" id="preco" name="preco" v-model="preco" placeholder="Digite o preço do produto">
+          <input type="number" id="preco" name="preco" v-model="preco" placeholder="Digite o preço do produto" :maxlength="8">
         </div>
         <div class="input-container">
           <label>Escolha a categoria:</label>
@@ -66,12 +66,13 @@ export default defineComponent({
       try {
         const response = await api.post(`/product`, data);
 
-        this.msg = `Produto ${response.data.id} cadastrado com sucesso !`;
+        this.msg = `Produto ${response.data.name} cadastrado com sucesso !`;
 
         setTimeout(() => this.msg = "", 3000);
 
         this.nome = "";
         this.produtosSelecionados = [];
+        e.target.reset();
       } catch (error) {
         console.error('Erro ao criar o produto:', error);
       }

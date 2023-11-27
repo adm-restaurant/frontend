@@ -12,13 +12,13 @@
         <router-link to="/pedidos" v-if="user.authenticated">
             Pedidos
         </router-link>
-        <router-link to="/produtos" v-if="user.authenticated">
+        <router-link to="/produtos" v-if="user.authenticated && user.role === 'ADMINISTRADOR'">
           Cadastrar Produto
         </router-link>
-      <router-link to="/usuario" v-if="user.authenticated">
+      <router-link to="/usuario" v-if="user.authenticated && user.role === 'ADMINISTRADOR'">
         Cadastrar Usuário
       </router-link>
-      <router-link to="/userList" v-if="user.authenticated">
+      <router-link to="/userList" v-if="user.authenticated && user.role === 'ADMINISTRADOR'">
         Listagem de Usuários
       </router-link>
     </div>

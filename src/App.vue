@@ -13,6 +13,8 @@
 
   if (token) {
     auth.user.authenticated = true;
+    const user = JSON.parse(localStorage.getItem("user"));
+    auth.user.role = user.role;
   }
 
   export default{

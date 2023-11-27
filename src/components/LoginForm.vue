@@ -45,6 +45,7 @@ export default {
         }
 
         auth.user.authenticated = true;
+        auth.user.role = response.data.role;
 
         this.$router.push({ path: '/home' });
 

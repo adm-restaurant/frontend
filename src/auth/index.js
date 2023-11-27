@@ -3,7 +3,8 @@ import { reactive } from 'vue'
 
 export default reactive({
   user: {
-    authenticated: false
+    authenticated: false,
+    role: null
   },
   logout() {
     localStorage.removeItem('token');
