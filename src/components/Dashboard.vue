@@ -71,7 +71,7 @@ export default {
 
     async deleteBurger(id) {
       try {
-        await api.get(`/solicitation/${id}`);
+        await api.delete(`/solicitation/${id}`);
         this.msg = `Pedido removido com sucesso !`;
         setTimeout(() => (this.msg = ""), 3000);
 
