@@ -3,7 +3,7 @@
     <form id="usuario-form" @submit.prevent="createUsuario">
       <div class="input-container">
         <label for="nome">Nome</label>
-        <input type="text" id="user" name="user" v-model="user" placeholder="Digite o seu nome:">
+        <input type="text" id="user" name="nome" v-model="nome" placeholder="Digite o seu nome:">
       </div>
 
       <div class="input-container">
@@ -13,7 +13,10 @@
 
       <div class="input-container">
         <label for="nome">Função</label>
-        <input type="text" id="role" name="role" v-model="role">
+        <select name="role" id="role" v-model="role">
+          <option value="ADMINISTRADOR">Administrador</option>
+          <option value="FUNCIONARIO">Usuário</option>
+        </select>
       </div>
 
 
@@ -48,6 +51,8 @@ export default {
         role: this.role
       };
 
+      console.log(data);
+
       if (!this.nome || !this.password || !this.role) {
         alert('Preencha todos os campos!');
         return;
@@ -70,9 +75,7 @@ export default {
       this.categoriaSelecionada = categoria;
     },
   },
-
   components: {Message}
-})
 };
 </script>
 
@@ -97,10 +100,11 @@ label{
   border-left: 4px solid #FCBA03;
 }
 
-input{
+input,select {
   padding: 5px 10px;
   width: 300px;
 }
+
 .dropdown {
   position: relative;
   display: inline-block;

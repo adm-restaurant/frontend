@@ -1,6 +1,6 @@
 <template>
-  <div class="main-container">
-    <div style="display: flex;justify-content: center;">
+  <div class="main-container" style="display: flex;justify-content: center; flex-direction: column; align-items: center;">
+    <div>
       <h1>Cadastrar Usuário:</h1>
     </div>
     <UsuarioForm />
