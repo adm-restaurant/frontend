@@ -11,29 +11,34 @@
       </div>
     </div>
     <div id="burger-table-rows">
-      <div class="burger-table-row" v-for="burger in burgers" :key="burger.id">
-        <div class="order-number">{{ burger.id }}</div>
-        <div>{{ burger.clientName }}</div>
+      <div class="burger-table-row" v-for="solicitation in burgers" :key="solicitation.id">
+        <div class="order-number">{{ solicitation.id }}</div>
+        <div>{{ solicitation.clientName }}</div>
         <div>
-          <li v-for="produto in burger.solicitationProducts.filter(produto => produto.product.category == 'ALIMENTACAO')"
+          <li v-for="produto in solicitation.solicitationProducts.filter(produto => produto.product.category == 'ALIMENTACAO')"
             :key="produto.id">
-            {{ produto.product.name ?? 'nome não encontrado' }}
+            {{ produto.product.name ?? 'Nome não encontrado' }}
+          </li>
+          <li v-if="solicitation.solicitationProducts.filter(produto => produto.product.category == 'ALIMENTACAO').length == 0">
+            Não possui
           </li>
         </div>
         <div>
-          <li v-for="produto in burger.solicitationProducts.filter(produto => produto.product.category == 'BEBIDAS')"
+          <li v-for="produto in solicitation.solicitationProducts.filter(produto => produto.product.category == 'BEBIDAS')"
             :key="produto.id">
-            {{ produto.product.name ?? 'nome não encontrado' }}
+            {{ produto.product.name ?? 'Nome não encontrado' }}
+          </li>
+          <li v-if="solicitation.solicitationProducts.filter(produto => produto.product.category == 'BEBIDAS').length == 0">
+            Não possui
           </li>
         </div>
         <div>
-          <select name="status" class="status" @change="updateBurger($event, burger.id)">
+          <select name="status" class="status" @change="updateBurger($event, solicitation)">
             <option value="">Selecione:</option>
-            <option v-for="s in status" :key="s.id" :value="s.tipo" :selected="burger.status == s.tipo">
-              {{ s.tipo }}
-            </option>
+            <option value="PRODUCT_PREPARATION">Preparando</option>
+            <option value="DONE">Pronto</option>
           </select>
-          <button class="delete-btn" @click="deleteBurger(burger.id)">Cancelar</button>
+          <button class="delete-btn" @click="deleteBurger(solicitation.id)">Cancelar</button>
         </div>
       </div>
     </div>
@@ -81,13 +86,13 @@ export default {
       }
     },
 
-    async updateBurger(event, id) {
+    async updateBurger(event, solicitation) {
       try {
         const option = event.target.value;
-        const response = await api.patch(`/product/${id}`, { status: option });
+        const solicitationWithNewStatus = { ...solicitation, solicitationStatus: option };
+        const response = await api.put('/solicitation', solicitationWithNewStatus);
 
-        this.msg = `O pedido N° ${response.data.id} foi atualizado para ${response.data.status} !`;
-        setTimeout(() => (this.msg = ""), 3000);
+        this.msg = `O pedido N° ${response.data.id} foi atualizado para ${response.data.solicitationStatus} !`;
       } catch (error) {
         console.error("Erro ao atualizar pedido:", error);
       }
