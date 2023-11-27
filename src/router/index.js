@@ -43,7 +43,14 @@ const routes = [
     name: 'Usuário',
     component: () => import(/* webpackChunkName: "usuario" */ '../views/Usuario.vue'),
     beforeEnter: AuthVerifyRouter
+  },
+  {
+    path: '/userList',
+    name: 'UserList',
+    component: () => import(/* webpackChunkName: "userList" */ '../views/UserList.vue'),
+    beforeEnter: AuthVerifyRouter
   }
+
 ]
 
 const router = createRouter({
