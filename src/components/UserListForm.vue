@@ -45,7 +45,7 @@ export default {
   methods: {
     async getUsers() {
       try {
-        const response = await api.get("/user");
+        const response = await api.get("/user/all");
         this.users = response.data;
         this.filterUsers();
       } catch (error) {
