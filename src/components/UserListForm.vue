@@ -25,7 +25,7 @@
 <script>
 import Message from "./Message.vue";
 import api from "@/config/api";
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 
 const users = ref([]);
 const filteredUsers = ref([]);
@@ -54,7 +54,7 @@ export default {
     },
 
     filterUsers() {
-      this.filteredUsers = this.users.filter(user => user.role === 'administrador' || user.role === 'funcionario');
+      this.filteredUsers = this.users.filter(user => user.role === 'ADMINISTRADOR' || user.role === 'FUNCIONARIO');
     },
 
     async deleteUser(id) {
