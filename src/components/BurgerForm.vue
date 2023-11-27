@@ -19,7 +19,7 @@
             </span>
           </div>
         </div>
-        <div class="input-container">
+        <div class="input-container" style="margin-top: 12px;">
           <label>Escolha os produtos:</label>
           <div class="checkbox-container">
             <label v-for="produto in produtos" :key="produto.id" class="checkbox-input">
