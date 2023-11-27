@@ -23,7 +23,7 @@
           <label>Escolha os produtos:</label>
           <div class="checkbox-container">
             <label v-for="produto in produtos" :key="produto.id" class="checkbox-input">
-              <input type="checkbox" v-model="produtosSelecionados" :value="produto.name">
+              <input type="checkbox" v-model="produtosSelecionados" :value="produto">
               <span>{{ produto.name }}</span>
             </label>
           </div>
@@ -73,8 +73,13 @@ export default {
       e.preventDefault();
 
       const data = {
-        nome: this.nome,
-        produtos: this.produtosSelecionados,
+        clientName: this.nome,
+        solicitationProducts: this.produtosSelecionados.map(product => {
+          return {
+            product,
+            quantity: 1
+          }
+        }),
         status: "Solicitado"
       };
 

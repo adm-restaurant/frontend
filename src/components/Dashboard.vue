@@ -13,9 +13,19 @@
     <div id="burger-table-rows">
       <div class="burger-table-row" v-for="burger in burgers" :key="burger.id">
         <div class="order-number">{{ burger.id }}</div>
-        <div>{{ burger.cliente.nome }}</div>
-        <div>{{ burger.burger.nome }}</div>
-        <div>{{ burger.bebida.nome }}</div>
+        <div>{{ burger.clientName }}</div>
+        <div>
+          <li v-for="produto in burger.solicitationProducts.filter(produto => produto.product.category == 'ALIMENTACAO')"
+            :key="produto.id">
+            {{ produto.product.name ?? 'nome não encontrado' }}
+          </li>
+        </div>
+        <div>
+          <li v-for="produto in burger.solicitationProducts.filter(produto => produto.product.category == 'BEBIDAS')"
+            :key="produto.id">
+            {{ produto.product.name ?? 'nome não encontrado' }}
+          </li>
+        </div>
         <div>
           <select name="status" class="status" @change="updateBurger($event, burger.id)">
             <option value="">Selecione:</option>
@@ -33,12 +43,15 @@
 <script>
 import Message from "./Message.vue";
 import api from "@/config/api";
+import { ref } from 'vue';
+
+const burgers = ref([]);
 
 export default {
   name: "BurgerTable",
   data() {
     return {
-      burgers: [],
+      burgers: burgers,
       status: [],
       msg: null,
     };
@@ -50,9 +63,7 @@ export default {
     async getPedidos() {
       try {
         const response = await api.get("/solicitation");
-        this.burgers = response.data;
-
-        this.getStatus();
+        this.burgers = response.data;  
       } catch (error) {
         console.error("Erro ao buscar pedidos:", error);
       }
