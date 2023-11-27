@@ -33,8 +33,9 @@
           </li>
         </div>
         <div>
-          <select name="status" class="status" @change="updateBurger($event, solicitation)">
+          <select name="status" class="status" @change="updateBurger($event, solicitation)" v-model="solicitation.solicitationStatus">
             <option value="">Selecione:</option>
+            <option value="SOLICITATION">Solicitado</option>
             <option value="PRODUCT_PREPARATION">Preparando</option>
             <option value="DONE">Pronto</option>
           </select>
@@ -91,6 +92,7 @@ export default {
         const option = event.target.value;
         const solicitationWithNewStatus = { ...solicitation, solicitationStatus: option };
         const response = await api.put('/solicitation', solicitationWithNewStatus);
+        await this.getPedidos();
 
         this.msg = `O pedido N° ${response.data.id} foi atualizado para ${response.data.solicitationStatus} !`;
       } catch (error) {
