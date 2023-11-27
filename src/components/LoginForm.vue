@@ -4,8 +4,8 @@
     <div>
       <form id="login-form" @submit.prevent="handleLogin">
         <div class="input-container">
-          <label for="nome">Usuário</label>
-          <input type="text" id="user" name="user" v-model="user" placeholder="Digite o seu usuário">
+          <label for="nome">Nome</label>
+          <input type="text" id="user" name="user" v-model="user" placeholder="Digite o seu nome">
         </div>
 
         <div class="input-container">

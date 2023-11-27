@@ -95,6 +95,14 @@ export default {
       } catch (error) {
         console.error('Erro ao criar o pedido:', error);
       }
+    },
+    checkProduct: function (event, produtoParam) {
+      const { checked } = event.target;
+      if (checked) {
+        this.produtosSelecionados.push(produtoParam);
+      } else {
+        this.produtosSelecionados = this.produtosSelecionados.filter(produto => produto !== produtoParam);
+      }
     }
   },
 
@@ -106,8 +114,11 @@ export default {
     categoriaSelecionada: function (novaCategoria) {
       this.loadProducts();
     },
-    produtosSelecionados: function (novosProdutos) {
-    }
+    produtosSelecionados: function (novoProduto) {
+      if (this.produtosSelecionados.find(produto => produto.name)) {
+        this.produtosSelecionados = this.produtosSelecionados.filter(produto => produto.name);
+      }
+    },
   },
 
   components: {
